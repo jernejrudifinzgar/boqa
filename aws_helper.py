@@ -34,7 +34,8 @@ from itertools import product
 # noinspection PyTypeChecker
 def run_job(hyperparams=None):
     """Main function which is ran in the hybrid jobs. If hyperparameters are passed, it is ran locally. Else, it reads them
-    from the environment variables."""
+    from the environment variables. As the classical simulator of the device is implemented in braket, we can also use
+    this same function to run the job locally, and to perform classical simulations of the protocol."""
 
     is_local = hyperparams is not None
     print("Job started!!!!!")
@@ -821,3 +822,7 @@ def run_gridgraph_linear(hyperparams=None):
         print(f"Done with iteration {gridgraph_index + 1}.")
         print(bitstrings_dict)
         log_metric(metric_name="Iterations done", value=1 - gridgraph_index % 2, iteration_number=gridgraph_index + 1)
+
+def p_mis(bitstrings, sol):
+    return sum([np.all(bs == sol) for bs in bitstrings]) / len(bitstrings)
+    
